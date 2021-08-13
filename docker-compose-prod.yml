@@ -2,7 +2,7 @@ version: "3"
 services:
     client:
         build: 
-            target: react-server
+            target: nginx-server
         ports: 
             - 3000:3000
         volumes:

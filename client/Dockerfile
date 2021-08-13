@@ -12,7 +12,7 @@ RUN npm run build
 
 FROM nginx:stable as nginx-server
 
-COPY --from=react-build /app/build/* /www
+COPY --from=react-build /app/build/ /www/
 COPY nginx.conf /etc/nginx/conf.d
 
 ARG CERTBOT_EMAIL=info@domain.com
