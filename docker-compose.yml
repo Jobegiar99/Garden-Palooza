@@ -22,6 +22,16 @@ services:
         networks:
             - garden
 
+    client:
+        container_name: client
+        build: 
+            context: ./client
+        restart: unless-stopped
+        env_file: 
+            - .env
+        networks:
+            - garden
+
 networks:
   garden:
     driver: bridge
