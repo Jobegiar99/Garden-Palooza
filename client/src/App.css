@@ -6,3 +6,10 @@
   font-family: "Press Start 2P", cursive;
   /* font-family: "Quicksand", sans-serif; */
 }
+
+.button-wrapper{
+  margin: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
