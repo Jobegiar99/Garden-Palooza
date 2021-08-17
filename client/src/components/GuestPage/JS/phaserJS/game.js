@@ -8,7 +8,13 @@ const config = {
     parent: 'phaser',
     width: 816,
     height: 624,
-    scene: [LoadScene,Garden,TileUI],
+    scene: [ LoadScene,Garden,TileUI],
+    physics: {
+        default: 'arcade',
+        arcade: {
+          enableBody: true,
+        }
+    }
 };
 
 

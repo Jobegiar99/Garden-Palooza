@@ -1,13 +1,13 @@
-from src.game.levelGenerator.skeletonGenerator import SkeletonGenerator
-from src.game.levelGenerator.grassDecorator import GrassDecorator
-from src.game.levelGenerator.riverSkeletonGenerator import RiverSkeletonGenerator
-from src.game.levelGenerator.riverDecorator import RiverDecorator
-from src.game.levelGenerator.groundDecorator import GroundDecorator
-from src.game.levelGenerator.waterExtraDecorator import WaterExtraDecorator
-from src.game.levelGenerator.grassExtraDecorator import GrassExtraDecorator
-from src.game.levelGenerator.groundExtraDecorator import GroundExtraDecorator
+from .skeletonGenerator import SkeletonGenerator
+from .grassDecorator import GrassDecorator
+from .riverSkeletonGenerator import RiverSkeletonGenerator
+from .riverDecorator import RiverDecorator
+from .groundDecorator import GroundDecorator
+from .waterExtraDecorator import WaterExtraDecorator
+from .grassExtraDecorator import GrassExtraDecorator
+from .groundExtraDecorator import GroundExtraDecorator
 from copy import deepcopy
-import json
+import random
 
 def GenerateLevel():
     GROUND_SPRITE_INDEX = 2363
@@ -49,4 +49,6 @@ def GenerateLevel():
     GrassExtraDecorator(secondLayer,GRASS_EXTRA_SPRITE_MAP, GRASS_EXTRA_SPRITE_MAP2, levelSkeleton.createdPath, GRASS_SPRITE_INDEX)
     GroundExtraDecorator(secondLayer, GROUND_EXTRA_SPRITE_MAP, levelSkeleton.ground, GROUND_SPRITE_MAP )
 
-    return json.dumps({"firstLayer": firstLayer, "secondLayer": secondLayer})
+    spawnPoint = levelSkeleton.createdPath[random.randint(0,len(levelSkeleton.createdPath) - 1)]
+
+    return {"firstLayer": firstLayer, "secondLayer": secondLayer, "playerRow": spawnPoint[1] * 16, "playerColumn": spawnPoint[0] * 16}

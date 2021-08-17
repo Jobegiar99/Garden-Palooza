@@ -49,6 +49,13 @@ class Game_Singleton:
     def updateStatusHelper(self):
         raise Exception("Not implemented Yet")
 
+    @socketio.on('connect')
+    def send_level(levelInformation):
+        gardenName, row, column, actionType, actionExtras = levelInformation
+        if actionType == "addPlant":
+            self.addQueue.append((gardenName, row, column,actionExtras))
+            emit('addPlant', addHelper())
+
 
 #JSON structure for the data given by the client:
 # id, row, column, actionType, actionExtras

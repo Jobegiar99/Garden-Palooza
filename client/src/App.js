@@ -1,23 +1,3 @@
-// import React from 'react';
-// import './App.css';
-
-// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-// import Home from './pages';
-// import SigninPage from './pages/signin';
-// import Guest from './pages/guest';
-
-// function App() {
-//   return (
-//     <Router>
-//       <Switch>
-//         <Route path='/' component={Home} exact />
-//         <Route path='/signin' component={SigninPage} exact />
-//         <Route path='/guest' component={Guest} exact />
-//       </Switch>
-//     </Router>
-//   );
-// }
-
 // export default App;
 import Guest from './pages/guest';
 import './App.css';
@@ -37,7 +17,7 @@ export default function App() {
   return (
     <ProvideAuth>
       <Router>
-        <div>
+        <div className="container">
           <AuthButton />  
           <Route path='/' component={Home} exact />
           <Route path='/signin' component={SigninPage} exact />

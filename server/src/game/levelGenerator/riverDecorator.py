@@ -1,4 +1,4 @@
-from src.game.levelGenerator.orientationDictionary import OrientationDictionary 
+from .orientationDictionary import OrientationDictionary 
 from copy import deepcopy 
 
 class RiverDecorator:
@@ -27,7 +27,7 @@ class RiverDecorator:
 
     def checkNeighbors(self, row, column, matrix, tempMatrix, GROUND_SPRITE_INDEX, WATER_SPRITE_INDEX, spriteDict, corner):
             
-        if 0 <= row < len(matrix) and 0 <= column < len(matrix[0]) and matrix[row][column] != GROUND_SPRITE_INDEX and matrix[row][column] != WATER_SPRITE_INDEX:
+        if 0 <= row < len(matrix) and 0 <= column < len(matrix[0]) and matrix[row][column] != WATER_SPRITE_INDEX:
 
             cellInfo = [
                 [0,0,0],
