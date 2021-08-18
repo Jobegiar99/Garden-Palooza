@@ -51,4 +51,4 @@ def GenerateLevel():
 
     spawnPoint = levelSkeleton.createdPath[random.randint(0,len(levelSkeleton.createdPath) - 1)]
 
-    return {"firstLayer": firstLayer, "secondLayer": secondLayer, "playerRow": spawnPoint[0] * 16, "playerColumn": spawnPoint[1] * 16}
+    return {"firstLayer": firstLayer, "secondLayer": secondLayer, "playerRow": spawnPoint[1] * 16, "playerColumn": spawnPoint[0] * 16}

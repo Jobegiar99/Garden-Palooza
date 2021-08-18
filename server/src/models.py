@@ -23,13 +23,26 @@ class GardenModel(db.Model):
 
     gardenName = db.Column(db.String(30),primary_key = True)
     ownerName = db.Column(db.String(36), db.ForeignKey('user.username'))
+    spawnRow = db.Column(db.Integer())
+    spawnColumn = db.Column(db.Integer())
 
-    #will improve this if we have enough time
-    firstLayer = db.Column(postgresql.ARRAY(db.Integer()))
-    secondLayer = db.Column(postgresql.ARRAY(db.Integer()))
-
-    def __init__(gardenName,ownerName,firstLayer,secondLayer):
+    def __init__(self,gardenName,ownerName, spawnRow, spawnColumn):
         self.gardenName = gardenName
         self.ownerName = ownerName
-        self.firstLayer = firstLayer
-        self.secondLayer = secondLayer
+
+class TileInfoModel(db.Model):
+    __tablename__ ='tileInfo'
+
+    layer = db.Column(db.Integer(), primary_key = True)
+    row = db.Column(db.Integer(), primary_key = True)
+    column = db.Column(db.Integer(), primary_key = True)
+    sprite = db.Column(db.Integer())
+    gardenName  = db.Column(db.String(30), db.ForeignKey('garden.gardenName'))
+    ownerName = db.Column(db.String(36), db.ForeignKey('user.username'))
+
+    def __init__( self, layer, row, column, sprite, gardenName, ownerName ):
+        self.layer = layer
+        self.row = row
+        self.column = column
+        self.sprite = sprite
+        self.gardenName = gardenName
