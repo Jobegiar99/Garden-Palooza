@@ -98,10 +98,4 @@ class GrassDecorator:
         if cellInfo == cornerDict[3][0]:
             if 0 <= row - 1 < len(matrix) and column + 1 < len(matrix[0]) and matrix[row - 1][column - 1] == GROUND_SPRITE_INDEX:
                 if matrix[row - 1][column + 1] == GROUND_SPRITE_INDEX and matrix[ row ][column + 1] == GROUND_SPRITE_INDEX:
-                    tempMatrix[row - 1][column + 1] = cornerDict[3][0]
-            
-
-
-     
-
-        
+                    tempMatrix[row - 1][column + 1] = cornerDict[3][0]      
