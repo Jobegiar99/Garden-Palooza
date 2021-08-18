@@ -3,6 +3,7 @@
 *virtualenv*
 *.pyc
 *venv*
+*/certs
 
 # dependencies
 */node_modules
