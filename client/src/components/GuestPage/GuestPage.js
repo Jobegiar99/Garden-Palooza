@@ -11,14 +11,15 @@ margin: 0 auto
 `;
 
 export const Window = styled.div`
+position: relative;
 `
 
 export const Chat = styled.div`
 background: white;
 z-index: 200;
 position: absolute;
-bottom: -40px;
-right: -35px;
+bottom: -200px;
+right: 0px;
 height: 120px;
 max-width: 320px;
 border: 1px solid black;
