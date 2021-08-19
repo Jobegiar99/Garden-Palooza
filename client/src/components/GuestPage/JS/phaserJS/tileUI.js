@@ -4,7 +4,6 @@ class TileUI extends Phaser.Scene
 {
     constructor ()
     {
-      debugger
         super({key: "TileUI"});
     }
 
@@ -17,7 +16,6 @@ class TileUI extends Phaser.Scene
 
     preload ()
     {
-      debugger
       this.load.image('button','assets/plantUIButton.png');
       this.load.image('background','assets/plantUIBackground.png');
     }
