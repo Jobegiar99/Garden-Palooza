@@ -1,11 +1,11 @@
 from flask import Blueprint
 from . import socketio
 from flask_socketio import emit
-
+from .databaseHelper import createLevel
 bp = Blueprint("multiplayer", __name__)
 
 
-
+levelInformation = createLevel('guest','guestAA')
 
 
 @socketio.on('connect')
