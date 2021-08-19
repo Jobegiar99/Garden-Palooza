@@ -19,6 +19,7 @@ class Garden extends Phaser.Scene
 
     preload ()
     {
+      debugger
       this.load.image("gardenTile","assets/global.png");
       this.load.image("playerStill","assets/characterStill.png");
       this.load.spritesheet('playerMovement','assets/characterMovementSheet.png',{frameWidth:32, frameHeight:48});

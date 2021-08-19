@@ -1,69 +1,68 @@
 from src.game.levelGenerator.levelGenerator import GenerateLevel
-from src.models import GardenModel, UserModel, TileInfoModel
-from src.__init__ import app,DB
+from src.models import GardenModel, UserModel, TileInfoModel, db
 from . import socketio
 from flask_socketio import emit
+from flask import Blueprint
+
+bp = Blueprint("dbHelper", __name__)
 
 def createLevel(username, gardenName):
     print("creating level")
     level = GenerateLevel()
     print(level)
-    with app.app_context():
-        firstLayer = level['firstLayer']
-        secondLayer = level['secondLayer']
-        spawnRow = level['playerRow']
-        spawnColumn = level['playerColumn']
+    firstLayer = level['firstLayer']
+    secondLayer = level['secondLayer']
+    spawnRow = level['playerRow']
+    spawnColumn = level['playerColumn']
 
-        gardenNameCount = DB.session.query(GardenModel).filter_by(ownerName = username).count()
-        gardenName = gardenName + "" if gardenNameCount == 0 else str(gardenNameCount + 1)
+    gardenNameCount = db.session.query(GardenModel).filter_by(ownerName = username).count()
+    gardenName = gardenName + "" if gardenNameCount == 0 else str(gardenNameCount + 1)
 
-        DB.session.add(GardenModel( gardenName, username, spawnRow, spawnColumn ))
+    db.session.add(GardenModel( gardenName, username, spawnRow, spawnColumn ))
 
-        for row in range(len(firstLayer)):
-            for column in range(len(firstLayer)):
-                DB.session.add(TileInfoModel(1, row, column, firstLayer[row][column], gardenName))
-                DB.session.add(TileInfoModel(2, row, column, secondLayer[row][column], gardenName))
+    for row in range(len(firstLayer)):
+        for column in range(len(firstLayer)):
+            db.session.add(TileInfoModel(1, row, column, firstLayer[row][column], gardenName))
+            db.session.add(TileInfoModel(2, row, column, secondLayer[row][column], gardenName))
 
-        DB.session.commit()
+    db.session.commit()
 
     return level
 
 def loadLevel( username, gardenName):
     print('loadingLevel')
-    with app.app_context():
+    garden = db.session.query(GardenModel).filter_by(ownerName = username, gardenName = gardenName)[0]
 
-        garden = DB.session.query(GardenModel).filter_by(ownerName = username, gardenName = gardenName)[0]
+    spawnRow = garden.spawnRow
+    spawnColumn = garden.spawnColumn
 
-        spawnRow = garden.spawnRow
-        spawnColumn = garden.spawnColumn
+    firstLayer = []
+    secondLayer = []
 
-        firstLayer = []
-        secondLayer = []
+    for row in range(39):
+        firstLayerRow = []
+        secondLayerRow = []
+        for column in range(51):
 
-        for row in range(39):
-            firstLayerRow = []
-            secondLayerRow = []
-            for column in range(51):
+            firstLayerInfo = db.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 1, ownerName = username, gardenName = gardenName)[0]
+            secondLayerInfo = db.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 2, ownerName = username, gardenName = gardenName)[0]
 
-                firstLayerInfo = DB.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 1, ownerName = username, gardenName = gardenName)[0]
-                secondLayerInfo = DB.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 2, ownerName = username, gardenName = gardenName)[0]
-
-                firstLayerRow.append(firstLayerInfo.sprite)
-                secondLayerRow.append(secondLayerInfo.sprite)
-            firstLayer.append(firstLayerRow)
-            secondLayerRow.append(secondLayerRow)
+            firstLayerRow.append(firstLayerInfo.sprite)
+            secondLayerRow.append(secondLayerInfo.sprite)
+        firstLayer.append(firstLayerRow)
+        secondLayerRow.append(secondLayerRow)
 
         return {"firstLayer":firstLayer, "secondLayer":secondLayer, "playerRow": spawnRow, "playerColumn": playerColumn}
 
 def updateLevel(username, gardenName, row, column, sprite):
     print('updatingLevel')
-    tile = DB.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 2, ownerName = username, gardenName = gardenName)[0]
+    tile = db.session.query(TileInfoModel).filter_by(row = row, column = column, layer = 2, ownerName = username, gardenName = gardenName)[0]
 
     tile.sprite = sprite
-    DB.session.commit()
+    db.session.commit()
 
 def getAllGardenNames(username):
-    gardens = DB.session.query(GardenModel).filter_by(ownerName = username)
+    gardens = db.session.query(GardenModel).filter_by(ownerName = username)
     gardenNames = []
     for garden in garden:
         gardenNames.append(garden.gardenName)
@@ -85,3 +84,13 @@ def loadLevelSocket(username, gardenName):
 @socketio.on('gardenNames')
 def getAllSocketLevels(username):
     emit('getGardenNames', getAllGardenNames(username))
+
+
+
+@socketio.on('gameLoaded')
+def sendLevel(signal):
+    levelInformation = createLevel('guest','guestAA')
+    
+    if signal == 'ok':
+        print("sending level to client")
+        return levelInformation

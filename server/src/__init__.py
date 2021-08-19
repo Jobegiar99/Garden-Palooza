@@ -54,6 +54,10 @@ def create_app(test_config=None):
 
     app.register_blueprint(multiplayer.bp)
 
+    from . import databaseHelper
+
+    app.register_blueprint(databaseHelper.bp)
+
     socketio.init_app(app, async_mode='gevent')
 
     return app

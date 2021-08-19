@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import Video from "../../videos/video.mp4";
 import {
   HeroContainer,
@@ -10,16 +8,10 @@ import {
   HeroH1,
   HeroP,
   HeroBtnWrapper,
-  ArrowForward,
-  ArrowRight,
 } from "./HeroElements";
 
 function HeroSection() {
-  const [hover, setHover] = useState(false);
 
-  const onHover = () => {
-    setHover(!hover);
-  };
   return (
     <HeroContainer id="home">
       <HeroBg>
@@ -31,20 +23,7 @@ function HeroSection() {
           Discover, collect and grow lovely plants and expand your garden!
         </HeroP>
         <HeroBtnWrapper>
-          <Link
-            to="guest"
-            smooth={true}
-            duration={500}
-            spy={true}
-            exact="true"
-            offset={-80}
-            primary="true"
-            dark="true"
-            onMouseEnter={onHover}
-            onMouseLeave={onHover}
-          >
-            Guest Login {hover ? <ArrowForward /> : <ArrowRight />}
-          </Link>
+           <Link to="/guest">Guest Login</Link>
         </HeroBtnWrapper>
       </HeroContent>
     </HeroContainer>
