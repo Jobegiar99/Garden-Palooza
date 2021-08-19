@@ -1,15 +1,14 @@
 version: "3"
 services:
-    react:
-        container_name: react
-        build: ./client
+    client:
+        build: 
+            target: react-server
         ports: 
             - 3000:3000
-        restart: unless-stopped
-        env_file: 
-            - .env
         volumes:
             - ./client/src:/app/src
     server:
+        ports:
+            - 5000:5000
         volumes:
             - ./server/src:/server/src

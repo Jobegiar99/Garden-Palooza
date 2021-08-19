@@ -24,11 +24,10 @@ class LoadScene extends Phaser.Scene
       let loadImage = this.physics.add.sprite(816/2,624/2,'loadingImage')
       loadImage.anims.play('loadingAnim',true);
       var self = this
-      socket.once('levelTransfer', function(level) {
+      socket.emit('gameLoaded', 'ok', (level) => {
         self.game.level = level;
         self.scene.start('Garden', { level });
       });
-
     }
 }
 
