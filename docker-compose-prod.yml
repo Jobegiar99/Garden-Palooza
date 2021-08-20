@@ -1,0 +1,13 @@
+version: "3"
+services:
+    client:
+        build: 
+            network: host
+            target: nginx-server
+            args:
+                - CERTBOT_EMAIL=$CERTBOT_EMAIL # set in .env
+                - DOMAIN_LIST=$DOMAIN_LIST
+        ports: 
+            - 80:80
+            - 443:443
+
