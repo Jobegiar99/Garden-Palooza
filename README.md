@@ -1,6 +1,6 @@
 # Garden Palooza
 
-A multiplayer gardening game. 
+### A multiplayer gardening game. 
 ![Devpost](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/001/630/803/datas/gallery.jpg)
 
 ## Installation
