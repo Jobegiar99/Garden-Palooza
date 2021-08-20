@@ -73,8 +73,8 @@ services:
             - garden
 
 volumes: 
-    mydatabase
-    grafana_storage
+    mydatabase:
+    grafana_storage:
 
 networks:
   garden:
