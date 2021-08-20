@@ -2,6 +2,7 @@ import React from "react";
 import Phaser from "phaser";
 import config from "./JS/phaserJS/game";
 import socket from "./JS/multiplayer.js"
+import Player from "./Music"
 import {
   Container,
   Wrap,
@@ -72,8 +73,10 @@ const GuestPage = () => {
         <Wrap>
             <Window id="phaser"/>
             <ChatWrapper />
+             <Player />
         </Wrap>
       </Container>
+
     </>
   );
 };
