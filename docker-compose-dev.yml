@@ -12,3 +12,45 @@ services:
             - 5000:5000
         volumes:
             - ./server/src:/server/src
+    
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:latest
+        restart: unless-stopped
+        ports: 
+            - 4000:3000
+        depends_on: 
+            - prometheus
+    
+    prometheus:
+        container_name: prometheus
+        image: prom/prometheus:latest
+        restart: unless-stopped
+        ports: 
+            - 9090:9090
+        command: 
+            - --config.file=/etc/prometheus/prometheus.yml
+        volumes: 
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        depends_on: 
+            - cadvisor
+        networks:
+            - garden
+    
+    cadvisor:
+        container_name: cadvisor
+        image: gcr.io/cadvisor/cadvisor:latest
+        restart: unless-stopped
+        ports: 
+            - 8080:8080
+        volumes: 
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - garden
+
+networks:
+  garden:
+    driver: bridge
