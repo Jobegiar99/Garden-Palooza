@@ -18,7 +18,7 @@ services:
         image: grafana/grafana:latest
         restart: unless-stopped
         ports: 
-            - 3000:3000
+            - 4000:3000
         depends_on: 
             - prometheus
     
@@ -34,10 +34,12 @@ services:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
         depends_on: 
             - cadvisor
+        networks:
+            - garden
     
     cadvisor:
         container_name: cadvisor
-        image: grc.io/cadvisor/cavdisor:latest
+        image: gcr.io/cadvisor/cadvisor:latest
         restart: unless-stopped
         ports: 
             - 8080:8080
@@ -46,3 +48,9 @@ services:
             - /var/run:/var/run:rw
             - /sys:/sys:ro
             - /var/lib/docker/:/var/lib/docker:ro
+        networks:
+            - garden
+
+networks:
+  garden:
+    driver: bridge
