@@ -1,3 +1,4 @@
+# flake8: noqa
 import os
 from flask import Flask
 from flask_socketio import SocketIO
@@ -6,7 +7,8 @@ from src.models import db
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-socketio = SocketIO(cors_allowed_origins='*')
+socketio = SocketIO(cors_allowed_origins="*")
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -17,11 +19,11 @@ def create_app(test_config=None):
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     app.config.from_mapping(
-        SECRET_KEY='secret',
+        SECRET_KEY="secret",
     )
 
     app.config[
-    "SQLALCHEMY_DATABASE_URI"
+        "SQLALCHEMY_DATABASE_URI"
     ] = "postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{table}".format(
         user=os.getenv("POSTGRES_USER"),
         passwd=os.getenv("POSTGRES_PASSWORD"),
@@ -38,22 +40,18 @@ def create_app(test_config=None):
         db.create_all()
 
     # add your routes here! try to write them as blueprints if you can
-    @app.route('/hello')
+    @app.route("/hello")
     def hello():
-        return 'Hello, World!'
+        return "Hello, World!"
 
     from . import api
 
     app.register_blueprint(api.bp)
 
-    from . import chat
-
-    app.register_blueprint(chat.bp)
-
     from . import multiplayer
 
     app.register_blueprint(multiplayer.bp)
 
-    socketio.init_app(app, async_mode='gevent')
+    socketio.init_app(app, async_mode="gevent")
 
     return app

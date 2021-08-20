@@ -1,9 +1,9 @@
-import os
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.models import db, UserModel
 
 bp = Blueprint("api", __name__)
+
 
 @bp.route("/register", methods=["POST"])
 def register():
@@ -22,23 +22,26 @@ def register():
         new_user = UserModel(username, generate_password_hash(password))
         db.session.add(new_user)
         db.session.commit()
-        return jsonify(
-            status = "success",
-            data = {
-                "username": username
-            },
-            message = "user created successfully"
-        ), 200
+        return (
+            jsonify(
+                status="success",
+                data={"username": username},
+                message="user created successfully",
+            ),
+            200,
+        )
     else:
-        return jsonify(
-            status = "failed",
-            data = {
-                username: username
-            },
-            message = "User was not created",
-            error = error
-        ), 418
-    
+        return (
+            jsonify(
+                status="failed",
+                data={username: username},
+                message="User was not created",
+                error=error,
+            ),
+            418,
+        )
+
+
 @bp.route("/login", methods=["POST"])
 def login():
     username = request.form.get("username")
@@ -52,19 +55,21 @@ def login():
         error = "Incorrect password."
 
     if error is None:
-        return jsonify(
-            status = "success",
-            data = {
-                "username": user.username
-            },
-            message = "Login Successful"
-        ), 200
+        return (
+            jsonify(
+                status="success",
+                data={"username": user.username},
+                message="Login Successful",
+            ),
+            200,
+        )
     else:
-        return jsonify(
-            status = "failed",
-            data = {
-                username: username
-            },
-            message = "Failed to login",
-            error = error
-        ), 418
+        return (
+            jsonify(
+                status="failed",
+                data={username: username},
+                message="Failed to login",
+                error=error,
+            ),
+            418,
+        )

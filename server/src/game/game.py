@@ -1,13 +1,15 @@
+# flake8: noqa
 import asyncio
 import random
 import threading
 
+
 class Game_Singleton:
     __instance = None
 
-    @staticmethod 
+    @staticmethod
     def getInstance():
-        """ Static access method. """
+        """Static access method."""
         if Game_Singleton.__instance == None:
             Game_Singleton()
         return Game_Singleton.__instance
@@ -35,7 +37,7 @@ class Game_Singleton:
 
             if len(self.updateStatusQueue) > 0:
                 self.updateStatusHelper()
-            
+
             if self.finishThread:
                 print("BYE :(")
                 break
@@ -45,19 +47,19 @@ class Game_Singleton:
 
     def removeHelper(self):
         raise Exception("Not implemented Yet")
-    
+
     def updateStatusHelper(self):
         raise Exception("Not implemented Yet")
 
-    @socketio.on('connect')
+    @socketio.on("connect")
     def send_level(levelInformation):
         gardenName, row, column, actionType, actionExtras = levelInformation
         if actionType == "addPlant":
-            self.addQueue.append((gardenName, row, column,actionExtras))
-            emit('addPlant', addHelper())
+            self.addQueue.append((gardenName, row, column, actionExtras))
+            emit("addPlant", addHelper())
 
 
-#JSON structure for the data given by the client:
+# JSON structure for the data given by the client:
 # id, row, column, actionType, actionExtras
-    
+
 game = Game_Singleton()
